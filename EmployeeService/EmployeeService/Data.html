@@ -10,6 +10,10 @@
         <div class="well">
             <input id="btnLoadEmployees" class="btn btn-success"
                    type="button" value="Load Employees" />
+            <span id="spanUsername" class="text-muted"></span>
+            <input id="btnLogoff" class="btn btn-success pull-right"
+                   type="button" value="Log Off" />
+
         </div>
         <div id="divData" class="well hidden">
             <table class="table table-bordered" id="tblData">
@@ -60,7 +64,12 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            if (sessionStorage.getItem('accessToken') == null) {
+            $('#spanUsername').text('Hello ' + localStorage.getItem('userName'));
+            $('#btnLogoff').click(function () {
+                localStorage.removeItem('accessToken');
+                window.location.href = "Login.html";
+            });
+            if (localStorage.getItem('accessToken') == null) {
                 window.location.href = "Login.html";
             }
 
@@ -77,7 +86,7 @@
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer '
-                            + sessionStorage.getItem("accessToken")
+                            + localStorage.getItem("accessToken")
                     },
                     success: function (data) {
                         $('#divData').removeClass('hidden');
