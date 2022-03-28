@@ -10,6 +10,8 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using EmployeeService.Providers;
 using EmployeeService.Models;
+using Microsoft.Owin.Security.Facebook;
+using EmployeeService.Facebook;
 
 namespace EmployeeService
 {
@@ -58,6 +60,17 @@ namespace EmployeeService
             //app.UseFacebookAuthentication(
             //    appId: "",
             //    appSecret: "");
+
+            var facebookOptions = new FacebookAuthenticationOptions()
+            {
+                AppId = "160811734413146",
+                AppSecret = "21f2665e0aed11867fcd8d35e67d6068",
+                BackchannelHttpHandler = new FacebookBackChannelHandler(),
+                UserInformationEndpoint = "https://graph.facebook.com/v2.4/me?fields=id,email"
+            };
+
+            facebookOptions.Scope.Add("email");
+            app.UseFacebookAuthentication(facebookOptions);
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
